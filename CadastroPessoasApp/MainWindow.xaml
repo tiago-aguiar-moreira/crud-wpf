@@ -1,0 +1,221 @@
+﻿<Window x:Class="CadastroPessoasApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CadastroPessoasApp"
+        xmlns:validationrules="clr-namespace:CadastroPessoasApp.ValidationRules"
+        mc:Ignorable="d"
+        Title="Sistema XP" Height="500" Width="850">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="0,0,0,16">
+            <GroupBox Header="Pessoa" Margin="5">
+                <Grid Height="250">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="83"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Invisible -->
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TextBlockId" 
+                       Visibility="Hidden" Text="{Binding Path=PeopleRecord.Id, Mode=TwoWay}"/>
+
+                    <!-- Row 0 -->
+
+                    <Label Content="Nome" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+                        Grid.Row="0" Grid.Column="0" Margin="0,0,0,12" Width="42"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="TextBoxName" Margin="5,5,0,12"  Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Nome" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Label Content="Sobrenome" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="0" Grid.Column="2" Margin="0,0,0,12" Width="71"/>
+                    <TextBox Grid.Row="0" Grid.Column="3" x:Name="TextBoxSobrenome" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Sobrenome" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <!-- Row 1 -->
+
+                    <Label Content="Cpf" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="1" Grid.Column="0" Margin="0,0,0,12" Width="71"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxCpf" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Cpf" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:CpfRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Label Content="Nascimento" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="1" Grid.Column="2" Margin="0,0,0,12" Width="80" />
+                    <DatePicker Grid.Row="1" Grid.Column="3" x:Name="TextBoxNascimento" 
+                                Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <DatePicker.Text>
+                            <Binding Path="PeopleRecord.Nascimento" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:AgeLimitRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.Text>
+                    </DatePicker>
+
+                    <!-- Row 2 -->
+
+                    <Label Content="Gênero" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="2" Grid.Column="0" Margin="0,0,0,12" Width="75" />
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxGenero"
+                       Text="{Binding Path=PeopleRecord.Genero, Mode=TwoWay}" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left"/>
+
+                    <Label Content="Logradouro" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="2" Grid.Column="2" Margin="0,2,0,5" Width="75" />
+                    <TextBox Grid.Row="2" Grid.Column="3" x:Name="TextBoxLogradouro" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Logradouro" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <!-- Row 3 -->
+
+                    <Label Content="Número" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="3" Grid.Column="0" Margin="0,2,0,5" Width="75" />
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="TextBoxNumero" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Numero" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Label Content="Cidade" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="3" Grid.Column="2" Margin="0,2,0,5" Width="75" />
+                    <TextBox Grid.Row="3" Grid.Column="3" x:Name="TextBoxCidade" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Cidade" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <!-- Row 4 -->
+
+                    <Label Content="Estado" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="4" Grid.Column="0" Margin="0,2,0,5" Width="75" />
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="TextBoxEstado" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Estado" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:MandatoryFieldRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Label Content="Complemento" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="4" Grid.Column="2" Margin="0,2,0,5" Width="85" />
+                    <TextBox Grid.Row="4" Grid.Column="3" x:Name="TextBoxComplemento"
+                       Text="{Binding Path=PeopleRecord.Complemento, Mode=TwoWay}" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left"/>
+                    
+                    <!-- Row 5 -->
+
+                    <Label Content="Cep" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                       Grid.Row="5" Grid.Column="0" Width="71"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" x:Name="TextBoxCep" Margin="5,5,0,12" Width="290" HorizontalAlignment="Left">
+                        <TextBox.Text>
+                            <Binding Path="PeopleRecord.Cep" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <validationrules:CepRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                </Grid>
+            </GroupBox>
+            <StackPanel Height="40" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ButtonSave" Content="Save" Height="30" Width="80" Command="{Binding SaveCommand}">
+                    <!--<Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=TextBoxName, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>-->
+                </Button>
+
+                <Button x:Name="ButtonCancel" Content="Cancel" Height="30" Width="80" Command="{Binding ResetCommand}" Margin="5,0,10,0"/>
+            </StackPanel>
+            <StackPanel Height="150">
+                <DataGrid x:Name="DataGridPeoples" AutoGenerateColumns="False"
+                      ItemsSource="{Binding PeopleRecord.PeopleRecords}" CanUserAddRows="False" Height="125" Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="Nome" Binding="{Binding Path=Nome}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Path=Sobrenome}" Header="Sobrenome" />
+                        <DataGridTextColumn Binding="{Binding Path=Cpf}" Header="CPF" />
+                        <DataGridTextColumn Binding="{Binding Path=Birth, StringFormat='dd/MM/yyyy'}" Header="Data de Nascimento" />
+                        <DataGridTextColumn Binding="{Binding Path=Genero}" Header="Gênero" />
+                        <DataGridTextColumn Binding="{Binding Path=Logradouro}" Header="Logradouro" />
+                        <DataGridTextColumn Binding="{Binding Path=Numero}" Header="Número" />
+                        <DataGridTextColumn Binding="{Binding Path=Cidade}" Header="Cidade" />
+                        <DataGridTextColumn Binding="{Binding Path=Estado}" Header="Estado" />
+                        <DataGridTextColumn Binding="{Binding Path=Complemento}" Header="Complemento" />
+                        <DataGridTextColumn Binding="{Binding Path=Cep}" Header="CEP" />
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Select" x:Name="ButtonEdit" CommandParameter="{Binding Path=Id}"
+                                        Command="{Binding Path=DataContext.EditCommand,RelativeSource={RelativeSource FindAncestor,
+                                                AncestorType=Window}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=Id}"
+                                        Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor,
+                                                AncestorType=Window}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
