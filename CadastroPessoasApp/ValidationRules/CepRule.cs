@@ -7,15 +7,16 @@ namespace CadastroPessoasApp.ValidationRules
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            var inputValue = value.ToString();
+            var inputValue = value?.ToString().Trim();
 
             if (string.IsNullOrEmpty(inputValue))
             {
-                new ValidationResult(false, "Campo obrigatório.");
+                return new ValidationResult(false, "Campo obrigatório.");
             }
-            else if (inputValue.Length != 11)
+            
+            if (inputValue.Length != 11)
             {
-                new ValidationResult(false, "O CEP deve conter 8 dígitos.");
+                return new ValidationResult(false, "O CEP deve conter 8 dígitos.");
             }
 
             return ValidationResult.ValidResult;
