@@ -34,7 +34,23 @@ namespace CadastroPessoasApp.ViewModel
 			get
 			{
 				if (_saveCommand == null)
-					_saveCommand = new RelayCommand(param => SaveData(), null);
+					_saveCommand = new RelayCommand(param =>
+					{
+						try
+						{
+							SaveData(out var message);
+							MessageBox.Show(message);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show("Ocorreu um erro durante o processamento da sua solicitação. " + ex.InnerException);
+						}
+						finally
+						{
+							GetAll();
+							ResetData();
+						}
+					}, null);
 
 				return _saveCommand;
 			}
@@ -45,7 +61,7 @@ namespace CadastroPessoasApp.ViewModel
 			get
 			{
 				if (_editCommand == null)
-					_editCommand = new RelayCommand(param => EditData((int)param), null);
+					_editCommand = new RelayCommand(param => PrepareEditData((int)param), null);
 
 				return _editCommand;
 			}
@@ -56,7 +72,23 @@ namespace CadastroPessoasApp.ViewModel
 			get
 			{
 				if (_deleteCommand == null)
-					_deleteCommand = new RelayCommand(param => DeleteStudent((int)param), null);
+					_deleteCommand = new RelayCommand(param =>
+					{
+						try
+						{
+							RemovePeople((int)param, out var message);
+							MessageBox.Show(message);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show("Ocorreu um erro durante o processamento da sua solicitação. " + ex.InnerException);
+						}
+						finally
+						{
+							GetAll();
+						}
+
+					}, null);
 
 				return _deleteCommand;
 			}
@@ -76,7 +108,7 @@ namespace CadastroPessoasApp.ViewModel
 			PeopleRecord.Nome = string.Empty;
 			PeopleRecord.Sobrenome = string.Empty;
 			PeopleRecord.Cpf = string.Empty;
-			PeopleRecord.Nascimento = DateTime.Now;
+			PeopleRecord.Nascimento = DateTime.MinValue;
 			PeopleRecord.Genero = string.Empty;
 			PeopleRecord.Logradouro = string.Empty;
 			PeopleRecord.Numero = string.Empty;
@@ -86,31 +118,22 @@ namespace CadastroPessoasApp.ViewModel
 			PeopleRecord.Cep = string.Empty;
 		}
 
-		public void DeleteStudent(int id)
+		public bool RemovePeople(int id, out string message)
 		{
-			if (MessageBox.Show("Deseja remover este registro?", "Pessoa", MessageBoxButton.YesNo)
-				== MessageBoxResult.Yes)
-			{
-				try
-				{
-					_repository.RemovePeople(id);
-					MessageBox.Show("Registro removido com sucesso.");
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Ocorreu um erro durante o processamento da sua solicitação. " + ex.InnerException);
-				}
-				finally
-				{
-					GetAll();
-				}
-			}
+			_repository.RemovePeople(id);
+			message = "Registro removido com sucesso.";
+			return true;
 		}
 
-		public void SaveData()
+		public bool SaveData(out string message)
 		{
-			if (PeopleRecord != null)
+			if (PeopleRecord == null)
 			{
+				message = string.Empty;
+				return false;
+			}
+			else
+			{ 
 				_peopleEntity.Id = PeopleRecord.Id;
 				_peopleEntity.Nome = PeopleRecord.Nome;
 				_peopleEntity.Sobrenome = PeopleRecord.Sobrenome;
@@ -123,34 +146,24 @@ namespace CadastroPessoasApp.ViewModel
 				_peopleEntity.Estado = PeopleRecord.Estado;
 				_peopleEntity.Complemento = PeopleRecord.Complemento;
 				_peopleEntity.Cep = PeopleRecord.Cep;
+				
+				if (PeopleRecord.Id <= 0)
+				{
+					_repository.AddPeople(_peopleEntity);
+					message = "Registro salvo com sucesso.";
+				}
+				else
+				{
+					_peopleEntity.Id = PeopleRecord.Id;
+					_repository.UpdatePeople(_peopleEntity);
+					message = "Registro alterado com sucesso.";
+				}
 
-				try
-				{
-					if (PeopleRecord.Id <= 0)
-					{
-						_repository.AddPeople(_peopleEntity);
-						MessageBox.Show("Registro salvo com sucesso.");
-					}
-					else
-					{
-						_peopleEntity.Id = PeopleRecord.Id;
-						_repository.UpdatePeople(_peopleEntity);
-						MessageBox.Show("Registro alterado com sucesso.");
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Ocorreu um erro durante o processamento da sua solicitação. " + ex.InnerException);
-				}
-				finally
-				{
-					GetAll();
-					ResetData();
-				}
+				return true;
 			}
 		}
 
-		public void EditData(int id)
+		public void PrepareEditData(int id)
 		{
 			var model = _repository.Get(id);
 
